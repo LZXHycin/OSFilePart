@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import myFile.ExeFile;
 import myFile.Folder;
 import myFile.TxtFile;
 
@@ -122,7 +123,16 @@ public class StartApplication extends Application{
 ////		output.writeObject(MyDisk.disk);
 ////		output.close();
 
-
+		System.out.println(MyDisk.readDisk());
+		MyDisk.disk.getFat().printFat();
+		Folder folder = MyDisk.disk.getRootFolder();
+		for (int i = 0; i < folder.getChildrenFiles().size(); i++) {
+			ExeFile exeFile = (ExeFile) folder.getChildrenFiles().get(i);
+			System.out.println(exeFile.getName());
+			System.out.println(exeFile.getText());
+			System.out.println(exeFile.getSize());
+		}
+		System.out.println(MyDisk.disk.getRootFolder().getSize());
 
 		Scene scene = new Scene(pane);
 		arg0.setScene(scene);

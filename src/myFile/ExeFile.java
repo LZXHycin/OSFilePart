@@ -8,10 +8,17 @@ import javafx.scene.image.ImageView;
 
 public class ExeFile extends MyFile implements Serializable{
 
-	//文本内容
+	//--------------------------------数据域----------------------------
+	/**
+	 * 文本内容
+	 */
 	private String text;
+	/**
+	 * 指令
+	 */
 	private String[] orders;
 
+	//-------------------------------构造方法----------------------------
 	/**
 	 * 复制时所用的构造方法
 	 * @param name文件名
@@ -35,7 +42,26 @@ public class ExeFile extends MyFile implements Serializable{
 		this.attribute = 'o';
 	}
 
+	/**
+	 * 实现创建的可执行文件构造函数
+	 * @param name
+	 * @param orders
+	 */
+	public ExeFile(String name, String[] orders, MyFile parent){
+		super(name);
+		this.orders = orders;
+		this.deletable = false;
+		this.extensionName = 'e';
+		this.attribute = 'o';
+		this.size += orders.length;
+		String orderText = "";
+		for (int i = 0; i < orders.length; i++) {
+			orderText = orderText + orders[i] + '\n';
+		}
+		this.text = orderText;
+	}
 
+	//----------------------------------功能类方法-----------------------------
 	/**
 	 * 文件复制
 	 * 返回ExeFile对象，未指定父目录
@@ -48,8 +74,7 @@ public class ExeFile extends MyFile implements Serializable{
 		return file;
 	}
 
-
-
+	//-----------------------------------set方法------------------------------
 	/**
 	 * 修改文本内容
 	 * @param text
@@ -71,11 +96,22 @@ public class ExeFile extends MyFile implements Serializable{
 		MyDisk.disk.getFat().changeByTextSize(this.size, this.originNum);
 	}
 
+
+	//----------------------------------get方法-------------------------------
 	/**
 	 *返回命令数据
 	 * @return
 	 */
 	public String[] getOrders(){
 		return orders;
+	}
+
+	/**
+	 * 返回文本内容
+	 * @return
+	 */
+
+	public String getText(){
+		return text;
 	}
 }

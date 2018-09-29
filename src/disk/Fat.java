@@ -2,10 +2,6 @@ package disk;
 
 import java.io.Serializable;
 
-/**
- * FAT表记录磁盘使用情况，默认磁盘空间足够
- * @author 风信子
- */
 public class Fat implements Serializable{
 
 	//文件分配表
@@ -23,7 +19,7 @@ public class Fat implements Serializable{
 	}
 
 	/**
-	 * 从头遍历，获取空闲盘块号
+	 * 寻找第一个空闲磁盘块
 	 * @return 5-255的磁盘块号
 	 */
 	private int seekFreeBlockNum(){
@@ -37,8 +33,10 @@ public class Fat implements Serializable{
 	}
 
 	/**
-	 *由于文件大小的改变来改变FAT表的内容，
-	 *用于TxtTile,ExeFile文本内容改变时
+	 * FAT表的维护更改</br>
+	 * 文件内容更改而修改FAT表</br>
+	 * 使用时间：修改文本文件(TxtTile,ExeFile)内容时</br>
+	 * 使用地方：TxtTile,ExeFile的setText方法
 	 * @param size 文件大小
 	 * @param originNum 首磁盘块号
 	 */
@@ -82,7 +80,10 @@ public class Fat implements Serializable{
 	}
 
 	/**
-	 * 由于新建文件改变FAT表的内容
+	 * FAT表的维护更改</br>
+	 * 新建文件时分配FAT表项</br>
+	 * 使用时间：暂未使用</br>
+	 * 使用地方：暂未使用</br>
 	 * @return 该新建文件的首磁盘块号
 	 */
 	public int changeByFileCreate(){
@@ -91,6 +92,14 @@ public class Fat implements Serializable{
 		return index;
 	}
 
+	/**
+	 * FAT表的维护更改</br>
+	 * 根据复制文件的大小，分配相应的FAT表项，并返回首次盘块号</br>
+	 * 使用时间：文件复制时</br>
+	 * 使用地方：Folder的paste粘贴方法</br>
+	 * @param size 复制文件的大小
+	 * @return首次盘块号
+	 */
 	public int changeByFileCopy(int size){
 		int nowNum = (size + 63) / 64;
 		int[] request = new int[nowNum];
@@ -104,9 +113,6 @@ public class Fat implements Serializable{
 			fat[request[i]] = request[i+1];
 		}
 		fat[request[nowNum-1]] = -1;
-//		for (int i = 0; i < request.length; i++) {
-//			System.out.print(request[i]+" ");
-//		}
 		return request[0];
 	}
 
@@ -132,6 +138,9 @@ public class Fat implements Serializable{
 		return fat;
 	}
 
+	/**
+	 * 输出FAT表前30项
+	 */
 	public void printFat(){
 		for (int i = 0; i < 30; i++) {
 			System.out.print(fat[i] + " ");

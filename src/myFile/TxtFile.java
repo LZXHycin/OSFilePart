@@ -7,9 +7,13 @@ import javafx.scene.image.ImageView;
 
 public class TxtFile extends MyFile implements Serializable{
 
-	//文本内容
+	//-----------------------------数据域----------------------
+	/**
+	 * 文本内容
+	 */
 	private String text;
 
+	//-----------------------------构造方法------------------------
 	/**
 	 * 复制时所用的构造方法
 	 * @param name文件名
@@ -34,6 +38,7 @@ public class TxtFile extends MyFile implements Serializable{
 		this.attribute = 'o';
 	}
 
+	//--------------------------功能类方法-----------------------
 	/**
 	 *文件复制
 	 *返回TxtFile对象，未指定父目录
@@ -47,8 +52,7 @@ public class TxtFile extends MyFile implements Serializable{
 		return file;
 	}
 
-
-
+	//-----------------------------set方法-------------------------
 	/**
 	 * 修改文本内容
 	 * @param text
@@ -71,5 +75,8 @@ public class TxtFile extends MyFile implements Serializable{
 		MyDisk.disk.getFat().changeByTextSize(this.size, this.originNum);
 	}
 
-
+	//--------------------------------get方法----------------------------
+	public String getText(){
+		return text;
+	}
 }

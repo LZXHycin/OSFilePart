@@ -8,10 +8,13 @@ import javafx.scene.image.ImageView;
 
 public class Folder extends MyFile implements Serializable{
 
-	//子文件数组
+	//-------------------------数据域-----------------------------------
+	/**
+	 * 目录下的子文件表
+	 */
 	private ArrayList<MyFile> childrenFiles = new ArrayList<MyFile>();
 
-
+	//------------------------------构造方法-----------------------------
 	/**
 	 * root根目录构造方法
 	 */
@@ -41,14 +44,14 @@ public class Folder extends MyFile implements Serializable{
 		this.attribute = 'f';
 	}
 
-
+	//-----------------------------功能类的方法------------------------
 	/*
 	 * 粘贴
 	 * file:所要粘贴的文件
 	 */
 	public void paste(MyFile file){
 		//目录总大小增加
-		System.out.println("粘贴文件的大小" + file.getSize());
+//		System.out.println("粘贴文件的大小" + file.getSize());
 		//循环改变父目录的大小
 		MyFile parent = this;
 		while (parent != null) {
@@ -56,9 +59,9 @@ public class Folder extends MyFile implements Serializable{
 			parent = parent.getParent();
 		}
 		//子文件列表添加该文件
-		System.out.println("pre:"+childrenFiles.size());
+//		System.out.println("pre:"+childrenFiles.size());
 		this.childrenFiles.add(file);
-		System.out.println("cur:"+childrenFiles.size());
+//		System.out.println("cur:"+childrenFiles.size());
 		//指定文件的父目录
 		file.setParent(this);
 		file.setOriginNum(MyDisk.disk.getFat().changeByFileCopy(file.getSize()));
@@ -67,7 +70,7 @@ public class Folder extends MyFile implements Serializable{
 	/**
 	 * 删除
 	 */
-	public void delete(){
+	public boolean delete(){
 		Folder parent = (Folder) this.parent;
 		parent.setSize(parent.getSize() - this.size);
 		System.out.println(this.name + "有" + childrenFiles.size());
@@ -79,6 +82,7 @@ public class Folder extends MyFile implements Serializable{
 		System.out.println("删除" + this.name);
 		MyDisk.disk.getFat().release(this.originNum);
 		parent.removeFile(this);
+		return true;
 	}
 
 	/**
@@ -103,6 +107,21 @@ public class Folder extends MyFile implements Serializable{
 	}
 
 	/**
+	 * 寻找指定文件名的文件
+	 * @param name文件名
+	 * @return MyFile
+	 */
+	public MyFile seekFile(String name){
+		for (int index = 0; index < childrenFiles.size(); index++) {
+			if (name.equals(childrenFiles.get(index).getName())) {
+				return childrenFiles.get(index);
+			}
+		}
+		return null;
+	}
+
+	//--------------------------外部可使用方法----------------------------
+	/**
 	 * 移除文件，用于文件删除
 	 * @param file
 	 */
@@ -117,6 +136,7 @@ public class Folder extends MyFile implements Serializable{
 		return true;
 	}
 
+	//--------------------------get方法------------------------------------
 	/**
 	 * 获取子文件
 	 * @return
@@ -124,19 +144,4 @@ public class Folder extends MyFile implements Serializable{
 	public ArrayList<MyFile> getChildrenFiles(){
 		return this.childrenFiles;
 	}
-
-	/**
-	 * 寻找指定文件名的文件
-	 * @param name文件名
-	 * @return MyFile
-	 */
-	public MyFile seekFile(String name){
-		for (int index = 0; index < childrenFiles.size(); index++) {
-			if (name.equals(childrenFiles.get(index).getName())) {
-				return childrenFiles.get(index);
-			}
-		}
-		return null;
-	}
-
 }

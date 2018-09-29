@@ -7,7 +7,14 @@ import javafx.scene.image.ImageView;
 
 public class MyFile implements Serializable{
 
-	//文件名,3B
+	//------------------------------------数据域-----------------------------------
+	/**
+	 * 文件是否可删除
+	 */
+	protected boolean deletable = true;
+	/**
+	 * 文件名
+	 */
 	protected String name = null;
 	/**
 	 * 文件拓展名：'e'可执行文件，'t'普通文本文件，' '目录
@@ -17,13 +24,20 @@ public class MyFile implements Serializable{
 	 * 文件属性:'r'只读, 's'系统文件, 'o'普通文件, 'f'目录
 	 */
 	protected char attribute;
-	//初始盘号,1B
+	/**
+	 * 文件占用磁盘的初始磁盘块号
+	 */
 	protected int originNum;
-	//文件大小(单位为B),2B
+	/**
+	 * 文件大小
+	 */
 	protected int size = 0;
-	//父目录
+	/**
+	 * 文件父目录
+	 */
 	protected MyFile parent = null;
 
+	//---------------------------------构造方法---------------------------------
 	/**
 	 * 无参构造方法：只用于根目录创建
 	 */
@@ -49,8 +63,7 @@ public class MyFile implements Serializable{
 		this.parent = parent;
 	}
 
-
-
+	//----------------------------------功能类的方法---------------------------
 	/**
 	 * 复制
 	 * @return Myfile对象
@@ -62,16 +75,21 @@ public class MyFile implements Serializable{
 	/**
 	 * 删除
 	 */
-	public void delete(){
-		Folder parent = (Folder) this.parent;
-		parent.setSize(parent.getSize() - this.size);
-		MyDisk.disk.getFat().printFat();
+	public boolean delete(){
+		if (deletable) {
+			Folder parent = (Folder) this.parent;
+			parent.setSize(parent.getSize() - this.size);
+			MyDisk.disk.getFat().printFat();
 //		System.out.println("首磁盘号" + this.originNum);
 //		System.out.println("删除" + this.name);
 //		Disk.fat.release(this.originNum);
-		MyDisk.disk.getFat().release(this.originNum);
+			MyDisk.disk.getFat().release(this.originNum);
 //		Disk.fat.printFat();
-		parent.removeFile(this);
+			parent.removeFile(this);
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	/**
@@ -82,23 +100,21 @@ public class MyFile implements Serializable{
 		this.name = name;
 	}
 
-
-
-
+	//---------------------------------外部可使用的方法------------------------
 	/**
-	 * 获取文件的首磁盘块号
+	 * 是否为文件夹
 	 * @return
+	 */
+	public boolean isFolder(){
+		return false;
+	}
+
+	//--------------------------------get方法----------------------------------
+	/**
+	 * @return文件的首磁盘块号
 	 */
 	public int getOriginNum(){
 		return originNum;
-	}
-
-	/**
-	 * 设置占用的首盘块，多用于文件粘贴时使用
-	 * @param num 首盘块号
-	 */
-	protected void setOriginNum(int num){
-		this.originNum = num;
 	}
 
 	/**
@@ -118,19 +134,28 @@ public class MyFile implements Serializable{
 	}
 
 	/**
-	 * 设置父目录
-	 * @param parent 父目录
-	 */
-	public void setParent(MyFile parent){
-		this.parent = parent;
-	}
-
-	/**
 	 * 获取文件大小
 	 * @return 文件大小
 	 */
 	public int getSize(){
 		return size;
+	}
+
+	//-----------------------------------set方法-----------------------------------
+	/**
+	 * 设置占用的首盘块，多用于文件粘贴时使用
+	 * @param num 首盘块号
+	 */
+	protected void setOriginNum(int num){
+		this.originNum = num;
+	}
+
+	/**
+	 * 设置父目录
+	 * @param parent 父目录
+	 */
+	public void setParent(MyFile parent){
+		this.parent = parent;
 	}
 
 	/**
@@ -140,15 +165,4 @@ public class MyFile implements Serializable{
 	protected void setSize(int size){
 		this.size = size;
 	}
-
-
-
-	/**
-	 * 是否为文件夹
-	 * @return
-	 */
-	public boolean isFolder(){
-		return false;
-	}
-
 }
