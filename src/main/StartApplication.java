@@ -123,16 +123,16 @@ public class StartApplication extends Application{
 ////		output.writeObject(MyDisk.disk);
 ////		output.close();
 
-		System.out.println(MyDisk.readDisk());
-		MyDisk.disk.getFat().printFat();
-		Folder folder = MyDisk.disk.getRootFolder();
+//		System.out.println(MyDisk.readDisk());
+		MyDisk.getDisk().getFat().printFat();
+		Folder folder = MyDisk.getDisk().getRootFolder();
 		for (int i = 0; i < folder.getChildrenFiles().size(); i++) {
 			ExeFile exeFile = (ExeFile) folder.getChildrenFiles().get(i);
 			System.out.println(exeFile.getName());
 			System.out.println(exeFile.getText());
 			System.out.println(exeFile.getSize());
 		}
-		System.out.println(MyDisk.disk.getRootFolder().getSize());
+		System.out.println(MyDisk.getDisk().getRootFolder().getSize());
 
 		Scene scene = new Scene(pane);
 		arg0.setScene(scene);

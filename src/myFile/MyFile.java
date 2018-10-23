@@ -79,11 +79,11 @@ public class MyFile implements Serializable{
 		if (deletable) {
 			Folder parent = (Folder) this.parent;
 			parent.setSize(parent.getSize() - this.size);
-			MyDisk.disk.getFat().printFat();
+			MyDisk.getDisk().getFat().printFat();
 //		System.out.println("Ê×´ÅÅÌºÅ" + this.originNum);
 //		System.out.println("É¾³ý" + this.name);
 //		Disk.fat.release(this.originNum);
-			MyDisk.disk.getFat().release(this.originNum);
+			MyDisk.getDisk().getFat().release(this.originNum);
 //		Disk.fat.printFat();
 			parent.removeFile(this);
 			return true;

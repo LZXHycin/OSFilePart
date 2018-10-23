@@ -93,7 +93,7 @@ public class ExeFile extends MyFile implements Serializable{
 			parent.setSize(parent.getSize() + changeSize);
 			parent = parent.getParent();
 		}
-		MyDisk.disk.getFat().changeByTextSize(this.size, this.originNum);
+		MyDisk.getDisk().getFat().changeByTextSize(this.size, this.originNum);
 	}
 
 

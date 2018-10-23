@@ -64,7 +64,7 @@ public class Folder extends MyFile implements Serializable{
 //		System.out.println("cur:"+childrenFiles.size());
 		//指定文件的父目录
 		file.setParent(this);
-		file.setOriginNum(MyDisk.disk.getFat().changeByFileCopy(file.getSize()));
+		file.setOriginNum(MyDisk.getDisk().getFat().changeByFileCopy(file.getSize()));
 	}
 
 	/**
@@ -77,10 +77,10 @@ public class Folder extends MyFile implements Serializable{
 		while (this.childrenFiles.size() != 0) {
 			childrenFiles.get(0).delete();
 		}
-		MyDisk.disk.getFat().printFat();
+		MyDisk.getDisk().getFat().printFat();
 		System.out.println("首磁盘号" + this.originNum);
 		System.out.println("删除" + this.name);
-		MyDisk.disk.getFat().release(this.originNum);
+		MyDisk.getDisk().getFat().release(this.originNum);
 		parent.removeFile(this);
 		return true;
 	}

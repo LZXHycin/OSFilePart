@@ -72,7 +72,7 @@ public class TxtFile extends MyFile implements Serializable{
 			parent = parent.getParent();
 		}
 		//重新该文件的分配FAT
-		MyDisk.disk.getFat().changeByTextSize(this.size, this.originNum);
+		MyDisk.getDisk().getFat().changeByTextSize(this.size, this.originNum);
 	}
 
 	//--------------------------------get方法----------------------------
