@@ -3,11 +3,13 @@ package myFile;
 import java.io.Serializable;
 import java.util.ArrayList;
 import disk.MyDisk;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class Folder extends MyFile implements Serializable{
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	//-------------------------数据域-----------------------------------
 	/**
 	 * 目录下的子文件表
@@ -45,6 +47,23 @@ public class Folder extends MyFile implements Serializable{
 	}
 
 	//-----------------------------功能类的方法------------------------
+
+
+	public MyFile copy() {
+		Folder folder = new Folder(this.name);
+//		System.out.println("子文件的数量"+childrenFiles.size());
+		if(this.childrenFiles.size()!=0) {
+			for (int i = 0; i < childrenFiles.size(); i++) {
+				System.out.println(childrenFiles.get(i).getName());
+				MyFile file = childrenFiles.get(i).copy();
+				folder.childrenFiles.add(file);
+				file.setParent(folder);
+			}
+		}
+		return folder;
+	}
+
+
 	/*
 	 * 粘贴
 	 * file:所要粘贴的文件
@@ -64,7 +83,18 @@ public class Folder extends MyFile implements Serializable{
 //		System.out.println("cur:"+childrenFiles.size());
 		//指定文件的父目录
 		file.setParent(this);
-		file.setOriginNum(MyDisk.getDisk().getFat().changeByFileCopy(file.getSize()));
+//		file.setOriginNum(MyDisk.getDisk().getFat().changeByFileCopy(file));
+		setOriginNumWhenPaste(file);
+	}
+
+	private void setOriginNumWhenPaste(MyFile copyFile){
+		copyFile.setOriginNum(MyDisk.getDisk().getFat().changeByFileCopy(copyFile));
+		if (copyFile.isFolder()) {
+			Folder nowFile = (Folder) copyFile;
+			for (int i = 0; i < nowFile.getChildrenFiles().size(); i++) {
+				setOriginNumWhenPaste(nowFile.getChildrenFiles().get(i));
+			}
+		}
 	}
 
 	/**
@@ -74,6 +104,7 @@ public class Folder extends MyFile implements Serializable{
 		Folder parent = (Folder) this.parent;
 		parent.setSize(parent.getSize() - this.size);
 		System.out.println(this.name + "有" + childrenFiles.size());
+		//由于每次delete，子文件的数量会减少，故不需要循环删除
 		while (this.childrenFiles.size() != 0) {
 			childrenFiles.get(0).delete();
 		}

@@ -3,11 +3,13 @@ package myFile;
 import java.io.Serializable;
 
 import disk.MyDisk;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 
 public class ExeFile extends MyFile implements Serializable{
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	//--------------------------------数据域----------------------------
 	/**
 	 * 文本内容

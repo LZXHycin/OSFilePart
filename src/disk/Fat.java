@@ -2,8 +2,14 @@ package disk;
 
 import java.io.Serializable;
 
+import myFile.MyFile;
+
 public class Fat implements Serializable{
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
 	//文件分配表
 	public int[] fat;
 
@@ -100,20 +106,27 @@ public class Fat implements Serializable{
 	 * @param size 复制文件的大小
 	 * @return首次盘块号
 	 */
-	public int changeByFileCopy(int size){
-		int nowNum = (size + 63) / 64;
-		int[] request = new int[nowNum];
-		int allow = 0;
-		for (int i = 5; i < fat.length && allow < nowNum; ++i){
-			if (fat[i] == 0) {
-				request[allow++] = i;
+	public int changeByFileCopy(MyFile file){
+		if (file.isFolder()) {
+			int freeOne = seekFreeBlockNum();
+			fat[freeOne] = -1;
+			return freeOne;
+		}else {
+			int size = file.getSize();
+			int nowNum = (size + 63) / 64;
+			int[] request = new int[nowNum];
+			int allow = 0;
+			for (int i = 5; i < fat.length && allow < nowNum; ++i){
+				if (fat[i] == 0) {
+					request[allow++] = i;
+				}
 			}
+			for (int i = 0; i < request.length-1; i++) {
+				fat[request[i]] = request[i+1];
+			}
+			fat[request[nowNum-1]] = -1;
+			return request[0];
 		}
-		for (int i = 0; i < request.length-1; i++) {
-			fat[request[i]] = request[i+1];
-		}
-		fat[request[nowNum-1]] = -1;
-		return request[0];
 	}
 
 	/**
