@@ -42,7 +42,7 @@ public class Folder extends MyFile implements Serializable{
 	 */
 	public Folder(MyFile parent){
 		super(parent);
-		this.name = "新建文件夹";
+		this.name = "FLD";
 		this.attribute = 'f';
 	}
 

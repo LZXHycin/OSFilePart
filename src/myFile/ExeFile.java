@@ -39,7 +39,7 @@ public class ExeFile extends MyFile implements Serializable{
 	 */
 	public ExeFile(MyFile parent){
 		super(parent);
-		this.name = "新建文件";
+		this.name = "EXE";
 		this.extensionName = 'e';
 		this.attribute = 'o';
 	}

@@ -35,7 +35,7 @@ public class TxtFile extends MyFile implements Serializable{
 	 */
 	public TxtFile(MyFile parent){
 		super(parent);
-		this.name = "新建文件";
+		this.name = "TXT";
 		this.extensionName = 't';
 		this.attribute = 'o';
 	}

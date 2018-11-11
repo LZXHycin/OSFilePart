@@ -100,8 +100,13 @@ public class MyFile implements Serializable{
 	 * 重命名
 	 * @param name 文件名
 	 */
-	public void rename(String name){
-		this.name = name;
+	public boolean rename(String name){
+		if (name.length() > 3) {
+			return false;
+		}else {
+			this.name = name;
+			return true;
+		}
 	}
 
 	//---------------------------------外部可使用的方法------------------------

@@ -74,13 +74,16 @@ public class StartApplication extends Application{
 		System.out.println(copyTxtFile.getText());
 		copyTxtFile.setText("555555555555555555555555555555555555555555555555555555555555555555555555555");
 		System.out.println(copyTxtFile.getParent().getName());
-		
+
 		MyDisk.getDisk().getFat().printFat();
-		
+
+		System.out.println(txtFile.rename("123"));
+		System.out.println(txtFile.rename("1234"));
+
 		MyDisk.saveDisk();
-		
-		
-		
+
+
+
 //
 //		System.out.println("----------改变txt1的内容-------------");
 //		txtFile.setText("111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");
