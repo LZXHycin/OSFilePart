@@ -77,6 +77,10 @@ public class StartApplication extends Application{
 		
 		MyDisk.getDisk().getFat().printFat();
 		
+		MyDisk.saveDisk();
+		
+		
+		
 //
 //		System.out.println("----------改变txt1的内容-------------");
 //		txtFile.setText("111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111");

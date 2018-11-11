@@ -167,6 +167,11 @@ public class Folder extends MyFile implements Serializable{
 		return true;
 	}
 
+	@Override
+	public boolean isFile() {
+		return false;
+	}
+
 	//--------------------------get方法------------------------------------
 	/**
 	 * 获取子文件

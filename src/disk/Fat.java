@@ -155,7 +155,7 @@ public class Fat implements Serializable{
 	 * 输出FAT表前30项
 	 */
 	public void printFat(){
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < 80; i++) {
 			System.out.print(fat[i] + " ");
 		}
 		System.out.println();

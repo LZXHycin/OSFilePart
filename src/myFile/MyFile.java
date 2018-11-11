@@ -1,6 +1,7 @@
 package myFile;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import disk.MyDisk;
 
@@ -167,5 +168,13 @@ public class MyFile implements Serializable{
 	 */
 	protected void setSize(int size){
 		this.size = size;
+	}
+
+	public boolean isFile() {
+		return true;
+	}
+
+	public ArrayList<MyFile> getChildrenFiles() {
+		return null;
 	}
 }
